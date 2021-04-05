@@ -102,22 +102,75 @@ const ServerIcon = () => {
 
 
 
-function print(elems) { //ciclo arrei di oggetti e stampo tutti cambiando le priprietá
+
+function getColorRandom() { //genero numeri random esadecimali per convertirli in colori
+
+    const RandomColor = Math.floor(Math.random() * 16777215).toString(16);
+    return ('#' + RandomColor);
+}
+
+function getType(elems) {
+
+    const Types = [];
+    elems.forEach((elem) => {
+
+        const type = elem.type;
+        if (!Types.includes(elem.type)) {
+            Types.push(elem.type);
+        }
+
+    });
+
+    return (Types);
+
+}
+
+function getcolor(arrey) {
+    const colors = [];
+    arrey.forEach((elem) => {
+
+        const color = getColorRandom();
+        colors.push(color);
+    });
+
+    return colors;
+}
+
+function colored(icons, types, colors) {
+
+    const newicons = icons.map(elem => {
+        const NewElem = {
+            ...elem
+        };
+     
+        const iconType = NewElem.type;
+       
+        const indexType = types.indexOf(iconType);
+       
+        const color = colors[indexType];
+        NewElem.color = color;
+        return NewElem;
+    });
+}
+
+
+
+function print(array) { //ciclo arrei di oggetti e stampo tutti cambiando le priprietá
 
     const DivPrint = $('.icons');
-    elems.forEach((elem) => {
-        elem = `
+     array.forEach((elem) => {//errore di forEach?! sono fuso
+       
+        let newElem = `
         <div>
-        <i class="${elem.family} ${elem.prefix}${elem.name}" style="color:blue"></i>
+        <i class="${elem.family} ${elem.prefix}${elem.name}" style="color:${elem.color}"></i>
         <div class="title">${elem.name.toUpperCase()}</div>
         </div>
         `;
-        DivPrint.append(elem);
+        DivPrint.append(newElem);
 
     });
 
 }
-
 
 
 
@@ -127,9 +180,20 @@ function init() {
     //in pagina tutte le icone disponibili come da layout.
 
     const Icons = ServerIcon(); //server delle icone
-    // console.log(Icons);
-    print(Icons); //funzione che stampa
+    console.log(Icons);
 
+    // Milestone 2
+    // Coloriamo le icone per tipo
+    const type = getType(Icons); //type 3
+    console.log(type);
+
+    const Color = getcolor(type); //colori  in base a quanti type ci sono in un arrey
+    console.log(Color);
+    const colorType = colored(Icons, type, Color);
+    print(colorType );
+
+
+    
 
 }
 
