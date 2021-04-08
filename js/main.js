@@ -109,12 +109,12 @@ function getColorRandom() { //genero numeri random esadecimali per convertirli i
     return ('#' + RandomColor);
 }
 
-function getType(elems) {
+function getType(elems) {//estraggo il type
 
     const Types = [];
     elems.forEach((elem) => {
 
-        const type = elem.type;
+        
         if (!Types.includes(elem.type)) {
             Types.push(elem.type);
         }
@@ -142,35 +142,37 @@ function colored(icons, types, colors) {
         const NewElem = {
             ...elem
         };
-     
+
         const iconType = NewElem.type;
-       
+
         const indexType = types.indexOf(iconType);
-       
+
         const color = colors[indexType];
         NewElem.color = color;
         return NewElem;
     });
+    return newicons;
 }
 
-
-
 function print(array) { //ciclo arrei di oggetti e stampo tutti cambiando le priprietá
-
+    
     const DivPrint = $('.icons');
-     array.forEach((elem) => {//errore di forEach?! sono fuso
-       
+    array.forEach((elem) => { 
+
         let newElem = `
         <div>
         <i class="${elem.family} ${elem.prefix}${elem.name}" style="color:${elem.color}"></i>
         <div class="title">${elem.name.toUpperCase()}</div>
         </div>
         `;
+        
         DivPrint.append(newElem);
-
     });
 
+    
 }
+
+
 
 
 
@@ -180,20 +182,20 @@ function init() {
     //in pagina tutte le icone disponibili come da layout.
 
     const Icons = ServerIcon(); //server delle icone
-    console.log(Icons);
+    console.log(Icons);//arrey globale di dati
 
     // Milestone 2
     // Coloriamo le icone per tipo
     const type = getType(Icons); //type 3
-    console.log(type);
+    console.log(type); //arrey dei type
 
-    const Color = getcolor(type); //colori  in base a quanti type ci sono in un arrey
-    console.log(Color);
-    const colorType = colored(Icons, type, Color);
-    print(colorType );
+    const Colors = getcolor(type); //colori  in base a quanti type ci sono in un arrey
+    console.log(Colors); //arrey con 3 colori random
+    const colorType = colored(Icons, type, Colors);
+    print(colorType);
 
 
-    
+
 
 }
 
